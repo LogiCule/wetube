@@ -30,7 +30,7 @@ const VideoCard = ({
         <CardMedia
           image={snippet?.thumbnails?.high?.url || demoThumbnailUrl}
           sx={{
-            width: { xs: "100%", sm: "358px", md: "320px" },
+            width: {xs: "100%", sm: "358px", md: "320px"},
             height: 180,
             overflow: "hidden",
             ":hover": { scale: "1.05" },
