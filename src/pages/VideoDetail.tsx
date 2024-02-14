@@ -36,6 +36,7 @@ const VideoDetail = () => {
               className="react-player"
               url={`https://www.youtube.com/watch?v=${id}`}
               controls
+              playing
             />
             <Typography color="#fff" p={2} variant="h5" fontWeight={"bold"}>
               {title}
