@@ -47,6 +47,11 @@ const VideoDetail = () => {
                 width="100%"
                 height="100%"
                 playing
+                config={{
+                  youtube: {
+                    playerVars: { showinfo: 1, origin: window.location.origin }
+                  }
+                }}
               />
             </div>
             
