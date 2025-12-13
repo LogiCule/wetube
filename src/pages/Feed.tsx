@@ -1,51 +1,35 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { SideBar, Videos } from "../components";
 import { fetchFromAPI } from "../utils/fetchFromApi";
-import { useEffect, useState } from "react";
 import { VideoType } from "../types";
 
 const Feed = () => {
-  const [videos, setVidoes] = useState<VideoType[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("New");
+  const [videos, setVideos] = useState<VideoType[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("Home");
+
   useEffect(() => {
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`).then((data) => {
-      setVidoes(data.items);
+    const query = selectedCategory === "Home" ? "New" : selectedCategory;
+    fetchFromAPI(`search?part=snippet&q=${query}`).then((data) => {
+      setVideos(data.items);
     });
   }, [selectedCategory]);
 
   return (
-    <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
-      <Box
-        sx={{
-          height: { sx: "auto", md: "92vh" },
-          borderRight: "1px solid #3d3d3d",
-          px: { sx: 0, md: 2 },
-        }}
+    <div className="flex flex-row min-h-[calc(100vh-80px)]">
+      <SideBar
+        selected={selectedCategory}
+        setSelected={setSelectedCategory}
+      />
+      
+      <div 
+        className="flex-1 overflow-y-auto p-4 w-full pl-[90px] md:pl-4" 
       >
-        <SideBar
-          selected={selectedCategory}
-          setSelected={setSelectedCategory}
-        />
-        <Typography
-          className="copyright"
-          variant="body2"
-          sx={{ mt: 1.5, color: "#fff" }}
-        >
-          Copyright 2024 LogiCule
-        </Typography>
-      </Box>
-      <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
-        <Typography
-          variant="h4"
-          fontWeight={"bold"}
-          mb={2}
-          sx={{ color: "white" }}
-        >
-          {selectedCategory} <span style={{ color: "#F31503" }}>Videos</span>
-        </Typography>
+        <h4 className="mb-4 text-3xl font-bold text-white">
+          {selectedCategory} <span className="text-primary">Videos</span>
+        </h4>
         <Videos videos={videos} />
-      </Box>
-    </Stack>
+      </div>
+    </div>
   );
 };
 

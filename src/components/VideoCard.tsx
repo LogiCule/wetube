@@ -1,60 +1,38 @@
-import { VideoType } from "../types";
-import { Typography, Card, CardContent, CardMedia } from "@mui/material";
-import { CheckCircle } from "@mui/icons-material";
-
-import { demoThumbnailUrl } from "../utils/constants";
-import { demoVideoUrl } from "../utils/constants";
-import { demoVideoTitle } from "../utils/constants";
-import { demoChannelTitle } from "../utils/constants";
-import { demoChannelUrl } from "../utils/constants";
 import { Link } from "react-router-dom";
+import { CheckCircle } from "lucide-react";
+import { VideoType } from "../types";
+import { demoThumbnailUrl, demoVideoUrl, demoVideoTitle, demoChannelUrl, demoChannelTitle } from "../utils/constants";
+import { Card, CardContent, CardHeader } from "./ui/card";
 
-const VideoCard = ({
-  video: {
-    id: { videoId },
-    snippet,
-  },
-}: {
+type VideoCardProps = {
   video: VideoType;
-}) => {
+};
+
+const VideoCard = ({ video: { id: { videoId }, snippet } }: VideoCardProps) => {
   return (
-    <Card
-      sx={{
-        width: { xs: "100%", sm: "358px", md: "320px" },
-        boxShadow: "none",
-        borderRadius: "1rem 1rem 0 0",
-        overflow: "hidden",
-      }}
-    >
-      <Link to={videoId ? `/video/${videoId}` : demoVideoUrl} style={{}}>
-        <CardMedia
-          image={snippet?.thumbnails?.high?.url || demoThumbnailUrl}
-          sx={{
-            width: {xs: "100%", sm: "358px", md: "320px"},
-            height: 180,
-            overflow: "hidden",
-            ":hover": { scale: "1.05" },
-          }}
-        />
-      </Link>
-      <CardContent sx={{ background: "#1e1e1e", height: "78px" }}>
+    <Card className="w-full bg-transparent border-none shadow-none group">
+      <CardHeader className="p-0 relative overflow-hidden rounded-xl">
         <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>
-          <Typography variant="subtitle1" fontWeight={"bold"} color="#fff">
-            {snippet?.title.slice(0, 60) || demoVideoTitle.slice(0, 60)}
-          </Typography>
+          <div className="overflow-hidden rounded-xl aspect-video">
+             <img 
+               src={snippet?.thumbnails?.high?.url || demoThumbnailUrl} 
+               alt={snippet?.title}
+               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+             />
+          </div>
         </Link>
-        <Link
-          to={
-            snippet?.channelId
-              ? `/channel/${snippet?.channelId}`
-              : demoChannelUrl
-          }
-        >
-          <Typography variant="subtitle2" fontWeight={"bold"} color="gray">
-            {snippet?.channelTitle.slice(0, 60) ||
-              demoChannelTitle.slice(0, 60)}
-            <CheckCircle sx={{ fontSize: 12, color: "gray", ml: "5px" }} />
-          </Typography>
+      </CardHeader>
+      <CardContent className="bg-black/80 h-[110px] px-1 py-3 transition-colors group-hover:bg-black">
+        <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>
+           <h3 className="text-white font-bold text-base line-clamp-2 leading-tight group-hover:text-primary transition-colors">
+             {snippet?.title.slice(0, 60) || demoVideoTitle.slice(0, 60)}
+           </h3>
+        </Link>
+        <Link to={snippet?.channelId ? `/channel/${snippet?.channelId}` : demoChannelUrl}>
+           <p className="text-zinc-400 text-sm font-medium mt-1 flex items-center hover:text-white transition-colors">
+              {snippet?.channelTitle || demoChannelTitle}
+              <CheckCircle className="w-3 h-3 ml-1 text-zinc-400" />
+           </p>
         </Link>
       </CardContent>
     </Card>

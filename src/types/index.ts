@@ -34,3 +34,21 @@ export type VideoType = {
     title: string;
   };
 };
+
+export type CommentType = {
+  kind: string;
+  id: string;
+  snippet: {
+    topLevelComment: {
+      kind: string;
+      id: string;
+      snippet: {
+        authorDisplayName: string;
+        authorProfileImageUrl: string;
+        textDisplay: string;
+        likeCount: number;
+        publishedAt: string;
+      };
+    };
+  };
+};

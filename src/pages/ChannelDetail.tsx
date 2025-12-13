@@ -1,7 +1,4 @@
-import { Box } from "@mui/material";
 import { useParams } from "react-router-dom";
-
-// import { Vidoes, ChannelCard } from "../components";
 import { useEffect, useState } from "react";
 import { fetchFromAPI } from "../utils/fetchFromApi";
 import { ChannelCard, Videos } from "../components";
@@ -10,7 +7,7 @@ import { VideoType } from "../types";
 const ChannelDetail = () => {
   const { id } = useParams();
   const [videos, setVideos] = useState<VideoType[]>([]);
-  const [channelDetail, setChannelDetail] = useState(null);
+  const [channelDetail, setChannelDetail] = useState<VideoType | null>(null);
 
   useEffect(() => {
     fetchFromAPI(`channels?part=snippet&id=${id}`).then((data) =>
@@ -24,27 +21,24 @@ const ChannelDetail = () => {
     );
   }, [id]);
 
-  console.log({ channelDetail, videos });
-
   if (!channelDetail) return null;
+
   return (
-    <Box minHeight={"95vh"}>
-      <Box>
-        <div
+    <div className="min-h-[95vh] bg-black">
+      <div>
+        <div 
+          className="h-[300px] z-10"
           style={{
-            background:
-              "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,75,1) 35%, rgba(0,212,255,1) 100%)",
-            zIndex: 10,
-            height: "300px",
-          }}
+            background: "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(121,9,75,1) 35%, rgba(0,212,255,1) 100%)"
+          }} 
         />
-        <ChannelCard channelDetail={channelDetail} marginTop={"-110px"} />
-      </Box>
-      <Box display={"flex"} p="2">
-        {/* <Box sx={{ mr: { sm: "100px" } }} /> */}
+        <ChannelCard channelDetail={channelDetail} marginTop="-110px" />
+      </div>
+      <div className="flex p-4">
+        <div className="hidden sm:block sm:mr-[100px]" />
         <Videos videos={videos} />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

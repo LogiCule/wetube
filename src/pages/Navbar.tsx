@@ -1,35 +1,30 @@
-import { Stack, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-
 import { logo } from "../utils/constants";
 import { SearchBar } from "../components";
+import { Menu } from "lucide-react";
+import { useSidebar } from "../context/SidebarContext";
 
 const Navbar = () => {
+  const { toggleSidebar } = useSidebar();
+
   return (
-    <Stack
-      direction={"row"}
-      alignItems={"center"}
-      p={2}
-      sx={{
-        position: "sticky",
-        background: "#000",
-        top: 0,
-        justifyContent: "space-between",
-      }}
-    >
-      <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-        <img src={logo} alt="logo" height={45} />{" "}
-        <Typography
-          sx={{ ml: 1 }}
-          color="#fff"
-          fontWeight={"bold"}
-          fontSize={{ xs: 24, md: 36 }}
+    <div className="sticky top-0 z-50 flex items-center justify-between bg-black p-4 border-b border-zinc-800 shadow-md">
+      <div className="flex items-center gap-4">
+        <button 
+          onClick={toggleSidebar}
+          className="p-2 rounded-full hover:bg-zinc-800 text-white transition-colors"
         >
-          WeTube
-        </Typography>
-      </Link>
+          <Menu className="h-6 w-6" />
+        </button>
+        <Link to="/" className="flex items-center gap-1 group">
+          <img src={logo} alt="logo" height={45} className="h-8 w-auto object-contain" />
+          <h1 className="text-2xl font-bold tracking-tighter text-white font-sans">
+            We<span className="text-primary">Tube</span>
+          </h1>
+        </Link>
+      </div>
       <SearchBar />
-    </Stack>
+    </div>
   );
 };
 
